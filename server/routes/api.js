@@ -30,7 +30,7 @@ let response = {
 router.get('/all', (req, res) => {   
     Course.find()
         .then((courses) => {
-            console.log(courses);
+            console.log(response.status, req.originalUrl);
             response.data = courses;
             res.json(response);
         })
