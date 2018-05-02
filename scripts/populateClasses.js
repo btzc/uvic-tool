@@ -35,8 +35,14 @@ let parseCourses = function (courseObject, term, subjectArray) {
             let time = jQuery(table)[1].children[0].data;
             let dates = jQuery(table)[2].children[0].data;
             let datesArr = dates.split('');
-            subjectObject.time = time;
-            subjectObject.dates = datesArr;
+            if(time) {
+                let splitTime = time.trim().split('-');
+                subjectObject.startTime = splitTime[0];
+                subjectObject.endTime = splitTime[1];
+            } else {
+                subjectObject.time = time;
+                subjectObject.dates = datesArr;
+            }
         }
         let information = jQuery(course).children().text();
         let split = information.split(' - ');
@@ -144,7 +150,8 @@ let getData = function () {
                             termSubjects.push(new Course({
                                 _id: ObjectID,
                                 "cid": subjectParsedData[n].cid,
-                                "time": subjectParsedData[n].time,
+                                "startTime": subjectParsedData[n].startTime,
+                                "endTime": subjectParsedData[n].endTime,
                                 "dates": subjectParsedData[n].dates,
                                 "name": subjectParsedData[n].name,
                                 "crn": subjectParsedData[n].crn,

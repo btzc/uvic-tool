@@ -1,3 +1,29 @@
-<p>
-  calendar works!
-</p>
+<p>calendar works!</p>
+<table>
+  <thead>
+    <td></td>
+    <td>Monday</td>
+    <td>Tuesday</td>
+    <td>Wednesday</td>
+    <td>Thursday</td>
+    <td>Friday</td>
+  </thead>
+  <tr *ngFor="let time of intervals">
+    <td>{{ time }}</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
+<table>
+  <tr *ngFor="let class of classes">
+    <td>{{ class.name }}</td>
+    <td>{{ class.abbrev }}</td>
+    <td>{{ class.sectionNum }}</td>
+    <td>{{ class.dates }}</td>
+    <td *ngIf="class.startTime">{{ class.startTime }}</td>
+    <td *ngIf="class.endTime">{{ class.endTime }}</td>
+  </tr>
+</table>

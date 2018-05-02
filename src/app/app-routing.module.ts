@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
+import { CalendarComponent } from './calendar/calendar.component';
 import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
@@ -14,6 +15,10 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent
+  },
+  {
+    path: 'calendar',
+    component: CalendarComponent
   }
 ];
 
