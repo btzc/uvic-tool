@@ -41,8 +41,8 @@ let parseCourses = function (courseObject, term, subjectArray) {
                 subjectObject.endTime = splitTime[1];
             } else {
                 subjectObject.time = time;
-                subjectObject.dates = datesArr;
             }
+            subjectObject.dates = datesArr;            
         }
         let information = jQuery(course).children().text();
         let split = information.split(' - ');
