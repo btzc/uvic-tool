@@ -147,6 +147,7 @@ let getData = function () {
                         let termSubjects = [];
                         // put into an array and assert course model
                         for (let n = 0; n < subjectParsedData.length; n++) {
+                            console.log(subjectParsedData[n]);
                             termSubjects.push(new Course({
                                 _id: ObjectID,
                                 "cid": subjectParsedData[n].cid,
@@ -155,7 +156,6 @@ let getData = function () {
                                 "dates": subjectParsedData[n].dates,
                                 "name": subjectParsedData[n].name,
                                 "crn": subjectParsedData[n].crn,
-                                "abbrev": subjectParsedData[n].abbrev,
                                 "sectionNum": subjectParsedData[n].sectionNum,
                                 "term": subjectParsedData[n].term
                             }));
