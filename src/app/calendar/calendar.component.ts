@@ -9,28 +9,38 @@ import { CalendarService } from '../services/calendar.service';
 export class CalendarComponent implements OnInit {
   classes: Array<any>;
   intervals: Array<any>;
-  uniqueList: Array<any>;
+  uniqueClassList: Array<any>;
+  uniqueClassIdList: Array<any>;
+  uniqueClassName: Array<any>;
   results: Array<any>;
+  schedule: Array<any>;
+  input: any;
 
   constructor(private calendarService: CalendarService) {
     this.intervals = [];
     this.results = [];
-    this.uniqueList = [];
+    this.uniqueClassList = [];
+    this.uniqueClassIdList = [];
+    this.uniqueClassName = [];
+    this.schedule = [];
   }
 
   ngOnInit() {
+    this.input = {
+      query: ''
+    };
     // service call to api
     this.calendarService.getAllClasses().subscribe(
       classes => {
         // calendar time init
         this.createIntervals();
         this.classes = classes;
-        // get unique list of all class id's
-        const seen = [];
+        // get unique list of all classes
         this.classes.forEach(course => {
-          if (seen.indexOf(course.cid) === -1) {
-            seen.push(course.cid);
-            this.uniqueList.push(course);
+          if (this.uniqueClassIdList.indexOf(course.cid.toLowerCase()) === -1) {
+            this.uniqueClassName.push(course.name.toLowerCase());
+            this.uniqueClassIdList.push(course.cid.toLowerCase());
+            this.uniqueClassList.push(course);
           }
         });
       }
@@ -53,12 +63,30 @@ export class CalendarComponent implements OnInit {
     }
   }
 
+  // filter this.uniqueList given input value and display filtered list
   filterList(element) {
     if (element.value) {
-      const expression = new RegExp('^' + element.value, 'i');
-      this.results = this.uniqueList.filter(course => course.cid.match(expression) || course.name.match(expression));
+      const cidExpression = new RegExp('^' + element.value, 'i');
+      const nameExpression = new RegExp(element.value, 'i');
+      this.results = this.uniqueClassList.filter(course => course.cid.match(cidExpression) || course.name.match(nameExpression));
     } else {
       this.results = [];
     }
+  }
+
+  // append course to calendar
+  addClass(value) {
+    if (this.uniqueClassIdList.indexOf(value.query.toLowerCase()) === -1 &&
+        this.uniqueClassName.indexOf(value.query.toLowerCase()) === -1) {
+
+      throw new Error('Class Does Not Exist!!');
+    }
+    const sections = [];
+    this.classes.forEach(course => {
+      if (course.cid.toLowerCase() === value.query.toLowerCase() || course.name.toLowerCase() === value.query.toLowerCase()) {
+        sections.push(course);
+      }
+    });
+    this.schedule.push(sections);
   }
 }

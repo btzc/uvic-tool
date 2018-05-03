@@ -1,19 +1,20 @@
 <ng-container *ngIf="classes">
   <p>calendar works!</p>
   <div>
-    <form>
-      <input type="text" (keyup)="filterList($event.target)">
-      <div style="display: table">
-        <div *ngFor="let class of results" style="display: table-row">
-          <div style="display: table-cell">
-            {{ class.cid }}
-          </div>
-          <div style="display: table-cell">
-            {{ class.name }}
-            </div>
+    <form #f="ngForm" (ngSubmit)="addClass(f.value)" id="addClassForm" novalidate>
+      <input type="text" name="query" (keyup)="filterList($event.target)" [(ngModel)]="input.query" #query="ngModel">
+      <button type="submit">Add Class</button>
+    </form>
+    <div style="display: table">
+      <div *ngFor="let class of results" style="display: table-row">
+        <div style="display: table-cell">
+          {{ class.cid }}
+        </div>
+        <div style="display: table-cell">
+          {{ class.name }}
         </div>
       </div>
-    </form>
+    </div>
   </div>
   <table>
     <thead>
@@ -34,13 +35,15 @@
     </tr>
   </table>
   <table>
-    <tr *ngFor="let class of classes">
-      <td>{{ class.name }}</td>
-      <td>{{ class.cid }}</td>
-      <td>{{ class.sectionNum }}</td>
-      <td>{{ class.dates }}</td>
-      <td *ngIf="class.startTime">{{ class.startTime }}</td>
-      <td *ngIf="class.endTime">{{ class.endTime }}</td>
+    <tr *ngFor="let class of schedule">
+      <td>{{ class[0].name }}</td>
+      <td>{{ class[0].cid }}</td>
+      <table *ngFor="let section of class">
+        <tr><td>{{ section.sectionNum }}</td></tr>
+        <tr><td>{{ section.dates }}</td></tr>
+        <tr><td *ngIf="section.startTime">{{ section.startTime }}</td></tr>
+        <tr><td *ngIf="section.endTime">{{ section.endTime }}</td></tr>
+      </table>
     </tr>
   </table>
 </ng-container>
