@@ -1,0 +1,23 @@
+table {
+    border-collapse: collapse;
+    padding-bottom: 20px;
+
+    td {
+        height: 50px;
+        width: 200px;
+        border: 1px solid rgba(0,0,0,0.1);
+        vertical-align: top;
+    }
+}
+
+.calendar {
+    grid-column: 1/5;
+}
+
+.class {
+    grid-column: 5/9;
+}
+
+.filled {
+    background-color: #00FFFF;
+}
