@@ -88,6 +88,15 @@ export class CalendarComponent implements OnInit {
       throw new Error('Class Does Not Exist!!');
     }
 
+    document.querySelector('input').value = '';
+    this.results = [];
+
+    this.schedule.forEach(course => {
+      if (course[0].cid.toLowerCase() === value.query.toLowerCase() || course[0].name.toLowerCase() === value.query.toLowerCase()) {
+        throw new Error('Class Already Added!');
+      }
+    });
+
     const sections = [];
     this.classes.forEach(course => {
       if (course.cid.toLowerCase() === value.query.toLowerCase() || course.name.toLowerCase() === value.query.toLowerCase()) {
@@ -102,42 +111,44 @@ export class CalendarComponent implements OnInit {
   addToCalendar(sections) {
     const rows = Array.from(document.querySelector('#table').querySelectorAll('tr'));
     sections.forEach(section => {
-      const startTime = this.calculateStartTime(section.startTime);
-      const endTime = this.calculateStartTime(section.endTime);
-      rows.forEach(row => {
-        const rowTime = this.calculateStartTime(row.cells[0].innerHTML);
-        if (JSON.stringify(startTime) === JSON.stringify(rowTime)) {
-          section.dates.forEach(day => {
-            const time1 = new Date(null, null, null, startTime[0], startTime[1]);
-            const time2 = new Date(null, null, null, endTime[0], endTime[1]);
-            const minutes = (time2.getTime() - time1.getTime()) / 60000;
-            const height = (minutes / 30) * 100;
-            const div = document.createElement('div');
-            div.innerHTML = `
-              ${section.name}
-              ${section.cid}
-              ${section.startTime}-${section.endTime}
-            `;
-            div.classList.add('filled');
-            div.style.height = height + '%';
-            div.style.zIndex = '100';
+      if (section.sectionNum === 'A01' || section.sectionNum === 'B01' || section.sectionNum === 'T01') {
+        const startTime = this.calculateStartTime(section.startTime);
+        const endTime = this.calculateStartTime(section.endTime);
+        rows.forEach(row => {
+          const rowTime = this.calculateStartTime(row.cells[0].innerHTML);
+          if (JSON.stringify(startTime) === JSON.stringify(rowTime)) {
+            section.dates.forEach(day => {
+              const time1 = new Date(null, null, null, startTime[0], startTime[1]);
+              const time2 = new Date(null, null, null, endTime[0], endTime[1]);
+              const minutes = (time2.getTime() - time1.getTime()) / 60000;
+              const height = (minutes / 30) * 100;
+              const div = document.createElement('div');
+              div.innerHTML = `
+                ${section.name}
+                ${section.cid} ${section.sectionNum}
+                ${section.startTime}-${section.endTime}
+              `;
+              div.classList.add('filled');
+              div.style.height = height + '%';
+              div.style.zIndex = '100';
 
-            if (day === 'M') {
-              row.cells[1].appendChild(div);
-            } else if (day === 'T') {
-              row.cells[2].appendChild(div);
-            } else if (day === 'W') {
-              row.cells[3].appendChild(div);
-            } else if (day === 'R') {
-              row.cells[4].appendChild(div);
-            } else if (day === 'F') {
-              row.cells[5].appendChild(div);
-            } else {
-              throw new Error('Problem finding date!');
-            }
-          });
-        }
-      });
+              if (day === 'M') {
+                row.cells[1].appendChild(div);
+              } else if (day === 'T') {
+                row.cells[2].appendChild(div);
+              } else if (day === 'W') {
+                row.cells[3].appendChild(div);
+              } else if (day === 'R') {
+                row.cells[4].appendChild(div);
+              } else if (day === 'F') {
+                row.cells[5].appendChild(div);
+              } else {
+                throw new Error('Problem finding date!');
+              }
+            });
+          }
+        });
+      }
     });
   }
 
