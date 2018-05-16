@@ -1,21 +1,31 @@
-table {
-    border-collapse: collapse;
-    padding-bottom: 20px;
+.calendar {
+    grid-column: 2/6;
 
-    td {
-        height: 50px;
-        width: 200px;
-        border: 1px solid rgba(0,0,0,0.1);
-        vertical-align: top;
+    table {
+        width: 100%;
+
+        td {
+            width: calc(100% / 6);
+            height: 50px;
+        }
     }
 }
 
-.calendar {
-    grid-column: 1/5;
-}
-
 .class {
-    grid-column: 5/9;
+    grid-column: 6/8;
+
+    table {
+        width: 82.5%;
+
+        .result {
+            width: 100%;
+            max-width: 100%;
+        }
+        
+        .result:hover {
+            background-color: #ddd;
+        }
+    }
 }
 
 .filled {

@@ -124,7 +124,6 @@ export class CalendarComponent implements OnInit {
               const height = (minutes / 30) * 100;
               const div = document.createElement('div');
               div.innerHTML = `
-                ${section.name}
                 ${section.cid} ${section.sectionNum}
                 ${section.startTime}-${section.endTime}
               `;
@@ -152,6 +151,7 @@ export class CalendarComponent implements OnInit {
     });
   }
 
+  // parse time string into parts
   calculateStartTime(time) {
     const timeParts = time.replace(/^\s+|\s+$/g, '').split(' ');
     const timeDivision = timeParts[0].split(':');
@@ -164,5 +164,14 @@ export class CalendarComponent implements OnInit {
     timeDivision.push(timeParts[1]);
 
     return timeDivision;
+  }
+
+  setToInput(value) {
+    const course = value.cid;
+    const input = <HTMLInputElement>document.querySelector('#query');
+
+    input.value = course;
+    this.input.query = course;
+    this.filterList(input);
   }
 }

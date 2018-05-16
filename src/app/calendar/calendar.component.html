@@ -21,20 +21,22 @@
         </table>
     </div>
     <div class="class">
-      <form #f="ngForm" (ngSubmit)="addClass(f.value)" id="addClassForm" novalidate>
-          <input type="text" name="query" (keyup)="filterList($event.target)" [(ngModel)]="input.query" #query="ngModel">
+      <form #f="ngForm" (ngSubmit)="addClass(f.value)" id="addClassForm" novalidate autocomplete="off">
+          <input type="text" name="query" id="query" (keyup)="filterList($event.target)" [(ngModel)]="input.query" #query="ngModel">
           <button type="submit">Add Class</button>
         </form>
-        <div style="display: table">
-          <div *ngFor="let class of results" style="display: table-row">
-            <div style="display: table-cell">
-              {{ class.cid }}
-            </div>
-            <div style="display: table-cell">
-              {{ class.name }}
-            </div>
-          </div>
-        </div>
+        <table id="results">
+          <tr *ngFor="let class of results">
+            <td class="result" (click)="setToInput(class)">
+              <div>
+                {{ class.cid }}
+              </div>
+              <div>
+                {{ class.name }}
+              </div>
+            </td>
+          </tr>
+        </table>
       <table>
           <tr *ngFor="let class of schedule">
             <td>{{ class[0].name }}</td>
